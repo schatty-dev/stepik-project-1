@@ -14,7 +14,9 @@ def departure_view(request, departure):
 
 
 def tour_view(request, id):
-    context = TOUR_DATA[str(id)]
+    context = TOUR_DATA.get(str(id))
+    if not context:
+        return render(request, '404.html', status=400)
     return render(request, "tours/tour.html", context=context)
 
 
