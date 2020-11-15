@@ -1,7 +1,8 @@
+import json
 from django.shortcuts import render
-from django.http import HttpResponseNotFound
 
-MAX_TOUR_ID = 10
+with open("data/tours.json", "r") as f:
+    TOUR_DATA = json.load(f)
 
 
 def main_view(request):
@@ -13,10 +14,8 @@ def departure_view(request, departure):
 
 
 def tour_view(request, id):
-    if id < 0 or id > MAX_TOUR_ID:
-        return HttpResponseNotFound("404: Page not found :(")
-
-    return render(request, "tours/tour.html", context={"tour_id": id})
+    context = TOUR_DATA[str(id)]
+    return render(request, "tours/tour.html", context=context)
 
 
 def handler404(request, exception):
